@@ -1,0 +1,54 @@
+{
+    "name" : "junos-housekeeping",
+    "description" : "A game made with Popka. Complete the household chores before your mother gets home!",
+    "authors" : ["Cyrodwd"],
+    "copyright" : "Copyright © 2024, Cyrodwd. Copyright © 2024, Alexandros F. G. Kapretsos",
+    "license" : "MIT",
+    "dependencies": {
+        "joka": "*",
+        "popka": "*"
+    },
+    "configurations": [
+        {
+            "name": "linux",
+            "targetType": "executable",
+            "platforms": ["linux"],
+            "dflags": ["-i"],
+            "lflags": ["-L.", "-rpath=$$ORIGIN"],
+            "libs": [
+                "raylib",
+                "GL",
+                "m",
+                "pthread",
+                "dl",
+                "rt",
+                "X11"
+            ]
+        },
+        {
+            "name": "windows",
+            "targetType": "executable",
+            "platforms": ["windows"],
+            "dflags": ["-i"],
+            "libs": [
+                "raylib"
+            ]
+        },
+        {
+            "name": "osx",
+            "targetType": "executable",
+            "platforms": ["osx"],
+            "dflags": ["-i"],
+            "lflags": ["-L.", "-rpath", "@executable_path/"],
+            "libs": [
+                "raylib.500"
+            ]
+        },
+        {
+            "name": "web",
+            "targetType": "staticLibrary",
+            "targetName": "webgame",
+            "dflags": ["-mtriple=wasm32-unknown-unknown-wasm", "-checkaction=halt", "-betterC", "-i", "--release"]
+        }
+    ]
+}
