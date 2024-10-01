@@ -27,7 +27,7 @@ struct Kitty {
 
         handleSpeed();
 
-        // Popka made this shit easier
+        // Popka made this sh*t easier
         if (isDown('A')) {
             direction.x -= 1;
         }
