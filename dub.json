@@ -1,6 +1,6 @@
 {
     "name" : "junos-housekeeping",
-    "description" : "A game made with Popka. Complete the household chores before your mother gets home!",
+    "description" : "A game made with Popka. An arcade game where your goal is to complete the tasks set by your mother before she arrives",
     "authors" : ["Cyrodwd"],
     "copyright" : "Copyright © 2024, Cyrodwd. Copyright © 2024, Alexandros F. G. Kapretsos",
     "license" : "MIT",
