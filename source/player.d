@@ -88,6 +88,8 @@ public struct Player
     void render()
     {
         renderStamina();
+        debug drawDebugText(format("Can Sprint: {}", canSprint ? "TRUE" : "FALSE"), Vec2(0, 50));
+        debug drawDebugText(format("Is Sprinting: {}", isSprinting ? "TRUE" : "FALSE"), Vec2(0, 100));
         drawSprite(texture, sprite, position);
     }
 
@@ -203,7 +205,9 @@ public struct Player
     /// IMPORTANT: This representation of stamina is only a basic implementation, it will look different as the game changes.
     void renderStamina()
     {
+        Rect staminaBaseLine = Rect(Vec2(0), Vec2(maxStamina, 15.0f));
         Rect staminaLine = Rect(Vec2(0), Vec2(stamina, 15.0f));
+        drawRect(staminaBaseLine, black);
         drawRect(staminaLine, green);
     }
 }
