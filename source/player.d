@@ -142,6 +142,7 @@ public struct Player
             move(1.0f, PlayerDirection.Right);
         }
 
+        // BUG - If the player presses ‘shift’ while recovering stamina, stamina recovering will stop until the user stops pressing ‘shift’.
         isSprinting = ( canSprint && isDown(Keyboard.shift));
     }
 
@@ -166,14 +167,12 @@ public struct Player
         // Running movement
         // ---------------------------
         speed = ( isMoving && isSprinting ) ? sprintSpeed : walkSpeed;
-        
-        // 
+
         if ( (isMoving && isSprinting) && stamina >= 0.0f )
         {
             stamina -= staminaMultiplier;
         }
 
-        // BUG - If the player presses ‘shift’ while recovering stamina, stamina recovering will stop until the user stops pressing ‘shift’.
         if ( !isSprinting && stamina <= maxStamina )
         {
             stamina += staminaMultiplier;
