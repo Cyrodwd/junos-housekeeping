@@ -27,8 +27,10 @@ public struct Player
     float speed; /// Player movement speed
     float stamina; /// Player stamina (Time to run)
 
-    Vec2 velocity; /// Player movement velocity (not speed) (for normalize Vec2)
+    Vec2 velocity; /// Player movement velocity
     Vec2 position; /// Player position on screen
+
+    Rect collision; /// Collision box of player
 
     bool isSprinting; /// Variable to verify if player is sprinting (running)
     bool isStressed; /// Variable to verify if player is stressed (player will move faster)
@@ -48,16 +50,16 @@ public struct Player
 
     public:
 
-    void start()
+    void ready()
     {
         texture = loadTexture("JUNO.png");
 
         sprite = Sprite(32, 64, 0, 0); // The size of each frame will not be the same (the spritesheet of Juno, i.e. the player) will be changed afterwards.
 
         velocity = Vec2.zero;
-        position = Vec2.zero;
+        position = Vec2(80);
 
-        isSprinting = false;
+        isSprinting = false; // Why would the player start sprinting at the beginning?
         isStressed = false;
         canSprint = true;
 
@@ -65,6 +67,7 @@ public struct Player
         stamina = 100.0f;
 
         actualDirection = PlayerDirection.Down;
+        collision = Rect(position, Vec2(32, 64));
 
         animations = [
             "idle" : SpriteAnimation(actualDirection, 0, frameSpeed),
@@ -122,28 +125,27 @@ public struct Player
     void handleInput()
     {
         velocity = Vec2.zero;
-        if (isDown(Keyboard.w))
+        if (isDown(Keyboard.w) || isDown(Keyboard.up))
         {
             move(-1.0f, PlayerDirection.Up);
         }
 
-        if (isDown(Keyboard.s))
+        if (isDown(Keyboard.s) || isDown(Keyboard.down))
         {
             move(1.0f, PlayerDirection.Down);
         }
 
-        if (isDown(Keyboard.a))
+        if (isDown(Keyboard.a) || isDown(Keyboard.left))
         {
             move(-1.0f, PlayerDirection.Left);
         }
 
-        if (isDown(Keyboard.d))
+        if (isDown(Keyboard.d) || isDown(Keyboard.right))
         {
             move(1.0f, PlayerDirection.Right);
         }
 
-        // BUG - If the player presses ‘shift’ while recovering stamina, stamina recovering will stop until the user stops pressing ‘shift’.
-        isSprinting = ( canSprint && isDown(Keyboard.shift));
+        isSprinting = ( (isMoving && canSprint) && isDown(Keyboard.shift));
     }
 
     void handleMovement( float dt )
@@ -208,5 +210,38 @@ public struct Player
         Rect staminaLine = Rect(Vec2(0), Vec2(stamina, 15.0f));
         drawRect(staminaBaseLine, black);
         drawRect(staminaLine, green);
+    }
+
+    // ----------------------------
+    // Public getters & setters
+    // ----------------------------
+    public:
+    @property
+    {
+        Rect getCollision()
+        {
+            return collision;
+        }
+
+        Vec2 getPosition()
+        {
+            return position;
+        }
+
+        void setPosition(Vec2 position)
+        {
+            if (position != this.position)
+                this.position = position;
+        }
+
+        void setPosition(float x, float y)
+        {
+            position = Vec2(x, y);
+        }
+
+        void setPosition(float x)
+        {
+            position = Vec2(x);
+        }
     }
 }
